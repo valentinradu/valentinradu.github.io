@@ -53,10 +53,10 @@ The objects are of a different class, so multiple table views can use different 
 However, our objects don’t have direct access to the controller’s properties and methods, which means there will be one handling method on the delegate side and one on the controller side:
 
 - (void)tableView:(UITableView *)tableView 
-{% endhighlight %}
+          didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-{% highlight javascript %}
-{% endhighlight %}
+    //the controller is our resolver in this case  
+    [self.resolver didSelectRowAtIndexPath:indexPath];
 }
 
 
@@ -70,14 +70,14 @@ So, we want the delegates to be different objects, but still be able to message 
 
 - (id)initWithDecoratedObject:(id<DEDecoratedObjectProtocol>) decObj
 {
-{% endhighlight %}
+        self = [super init];
 
-{% highlight javascript %}
-    {
-        self.decoratedObject = decObj;
-{% endhighlight %}
+        if (self)
+        {
+            self.decoratedObject = decObj;
+        }
 
-{% endhighlight %}
+        return self;
 }
 
 
@@ -92,11 +92,11 @@ Then, every message we receive in our decorators (delegates) and we can’t resp
 //the system rise the exception by returning self
 - (id)forwardingTargetForSelector:(SEL)aSelector
 {
-{% highlight javascript %}
-    return _decoratedObject;
-{% endhighlight %}
+    if ([_decoratedObject respondsToSelector:aSelector]) {
+        return _decoratedObject;
+    }
 
-{% endhighlight %}
+    return self;
 }
 
 //objective-c is smart enough to know the
@@ -107,32 +107,32 @@ Then, every message we receive in our decorators (delegates) and we can’t resp
 //so we force them to consider it by overriding them
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-{% highlight javascript %}
-    return YES;
-{% endhighlight %}
-
-{% highlight javascript %}
+    if ( [super respondsToSelector:aSelector] )
         return YES;
-{% endhighlight %}
+    else {
 
-{% highlight javascript %}
-{% endhighlight %}
+        if ([_decoratedObject respondsToSelector:aSelector]) {
+            return YES;
+        }
+
+    }
+    return NO;
 }
 
 - (BOOL)isKindOfClass:(Class)aClass
 {
-{% highlight javascript %}
-    return YES;
-}
-{% endhighlight %}
-
-{% highlight javascript %}
+    if ([super isKindOfClass:aClass]) {
         return YES;
-{% endhighlight %}
+    }
+    else {
 
-{% endhighlight %}
+        if ([_decoratedObject isKindOfClass:aClass]) {
+            return YES;
+        }
 
-{% endhighlight %}
+    }
+
+    return NO;
 }
 
 
@@ -150,9 +150,9 @@ Another nice thing about this technique is that you can add or remove a delegate
 DERootViewController * viewController = [[DERootViewController alloc] init];
 //our model data is simply a dictionary for the sake of simplicity
 viewController.tableItems = @[@{@"title": @"Africa"},
-{% highlight javascript %}
-                        @{@"title": @"Asia"},
-{% endhighlight %}
+                            @{@"title": @"America"},
+                            @{@"title": @"Asia"},
+                            @{@"title": @"Europe"}];
 
 
 //decorate the text label with a color
@@ -196,3 +196,5 @@ Is not a pure implementation, but it’s pretty close. ↩
 
 
 When it comes to implementation, I choose not to use NSProxy because Apple’s Documentation states that forwardInvocation: is much more expensive than forwardingTargetForSelector: which is not implemented for NSProxy. ↩
+
+

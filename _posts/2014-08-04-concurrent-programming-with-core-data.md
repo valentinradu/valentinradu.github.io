@@ -29,29 +29,29 @@ Also, below there’s a background fetch example. Inserting or updating works in
 
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 
-{% highlight javascript %}
-//you will typically have a singleton from which
-//you can access the master (in this example SPM)
-NSManagedObjectContext* slave = [SPM.localMaster spawnSlave];
-NSManagedObjectContext* ui = SPM.localMaster.uiMOC;
-__weak typeof(slave) weakSlave = slave;
-{% endhighlight %}
+    //spawn a slave
+    //you will typically have a singleton from which
+    //you can access the master (in this example SPM)
+    NSManagedObjectContext* slave = [SPM.localMaster spawnSlave];
+    NSManagedObjectContext* ui = SPM.localMaster.uiMOC;
+    __weak typeof(slave) weakSlave = slave;
+    __weak typeof(ui) weakUi = ui;
 
-{% endhighlight %}
+    __block NSArray* resultIDs;
 
-{% highlight javascript %}
-[slave performBlockAndWait:^{
-     NSFetchRequest *request=[[NSFetchRequest alloc] initWithEntityName:@"Entity"];
-     request.predicate=[NSPredicate predicateWithFormat:@"Complex fetch predicate"];
-{% endhighlight %}
+    //perform the fetch on the slave''s thread
+    [slave performBlockAndWait:^{
+         NSFetchRequest *request=[[NSFetchRequest alloc] initWithEntityName:@"Entity"];
+         request.predicate=[NSPredicate predicateWithFormat:@"Complex fetch predicate"];
+         request.resultType = NSManagedObjectIDResultType;
 
-{% highlight javascript %}
-     resultIDs = [weakSlave executeFetchRequest:request error:&error];
-     //check the error
-{% endhighlight %}
+         NSError *error;
+         resultIDs = [weakSlave executeFetchRequest:request error:&error];
+         //check the error
+    }];
 
-{% highlight javascript %}
-     //do something on the main thread with the results
-     NSManagedObject* firstObject = [weakUi objectWithID:[resultIDs firstObject]];
-{% endhighlight %}
+    [ui performBlock:^{
+         //do something on the main thread with the results
+         NSManagedObject* firstObject = [weakUi objectWithID:[resultIDs firstObject]];
+    }];
 });
