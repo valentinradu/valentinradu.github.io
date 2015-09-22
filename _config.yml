@@ -1,6 +1,6 @@
-name: Your New Jekyll Site
-description: Blogging about stuffs
-meta_description: "Your New Jekyll Site, Blogging about stuffs"
+name: CocoaExposed
+description: iOS and OSX related tips, tricks and tutorials by Valentin Radu, software engineer and entrepreneur interested in the area of signal processing, computer graphics and machine learning.
+meta_description: "iOS and OSX related tips, tricks and tutorials"
 
 aboutPage: true
 
@@ -9,15 +9,15 @@ highlighter: pygments
 
 paginate: 20
 baseurl: /
-domain_name: 'http://yourblog-domain.com'
-google_analytics: 'UA-XXXXXXXX-X'
-disqus: false
-disqus_shortname: 'your-disqus-shortname'
+domain_name: 'http://cocoaexposed.com'
+google_analytics: 'UA-37620980-1'
+disqus: true
+disqus_shortname: 'cocoaexposed'
 
 # Details for the RSS feed generator
-url:            'http://your-blog-url.example.com'
-author:         'Your Name'
-authorTwitter:  'YourTwitterUsername'
+url:            'http://cocoaexposed.com'
+author:         'Valentin Radu'
+authorTwitter:  'CocoaExposed'
 
 permalink:       /:year/:title/
 
