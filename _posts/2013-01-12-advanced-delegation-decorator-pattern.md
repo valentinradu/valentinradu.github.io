@@ -35,7 +35,7 @@ But before we start, know that you can find the Github project for this article 
 
 The inheritance solution
 
-So, one way would be to have a generic view controller, make it the superclass of both of your controllers and implement the delegation methods in it. 
+So, one way would be to have a generic view controller, make it the superclass of both of your controllers and implement the delegation methods in it.
 Than would solve the initial problem, however if for example the two table views have a different header and footer and you override tableView:viewForHeaderInSection: and tableView:viewForFooterInSection: a third table view that would like to have the footer from the first and the header from the second would have no way to get it without duplicating code. 1
 
 The aggregation solution
@@ -52,10 +52,10 @@ The objects are of a different class, so multiple table views can use different 
 
 However, our objects don’t have direct access to the controller’s properties and methods, which means there will be one handling method on the delegate side and one on the controller side:
 
-- (void)tableView:(UITableView *)tableView 
-{% endhighlight %}
+{% highlight objc %}
+- (void)tableView:(UITableView *)tableView
 {
-{% highlight javascript %}
+
 {% endhighlight %}
 }
 
@@ -143,9 +143,9 @@ Another nice thing about this technique is that you can add or remove a delegate
 //init the controller
 //this is just a basic UIViewController subclass implementing
 //DEDecoratedViewControllerProtocol protocol
-//a nice thing about this method is that you can keep 
+//a nice thing about this method is that you can keep
 //your model-controller relation intact
-//so, even if the controler will not be the table view delegate, 
+//so, even if the controler will not be the table view delegate,
 //it will still hold the model data for us
 DERootViewController * viewController = [[DERootViewController alloc] init];
 //our model data is simply a dictionary for the sake of simplicity
@@ -158,14 +158,14 @@ viewController.tableItems = @[@{@"title": @"Africa"},
 //decorate the text label with a color
 dec = [[DERedDecorator alloc] initWithDecoratedObject:viewController];
 //is as easy as this to change it to another color
-//DEAbstractDecorator * dec = 
+//DEAbstractDecorator * dec =
 //[[DEGrayDecorator alloc] initWithDecoratedObject:viewController];
 
 
 
 //then decorate the table view with a footer
 //notice that we pass the prev decoration as parameter
-//this is really nice because we can have a chain of decorations on 
+//this is really nice because we can have a chain of decorations on
 //the same decorated object
 dec = [[DEFooterDecorator alloc] initWithDecoratedObject:dec];
 
@@ -176,7 +176,7 @@ dec = [[DEHeaderDecorator alloc] initWithDecoratedObject:dec];
 
 
 //create the tableview
-UITableView * tableView = 
+UITableView * tableView =
 [[UITableView alloc] initWithFrame:self.window.frame style:UITableViewStylePlain];
 //delegate to decorator
 tableView.delegate = dec;
