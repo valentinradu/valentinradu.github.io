@@ -26,6 +26,7 @@ Below you have a diagram that puts in perspective the relations between the UI, 
 
 Here’s a class that handles the initial setup.
 Also, below there’s a background fetch example. Inserting or updating works in a similar fashion.
+
 {% highlight objc %}
 
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -35,23 +36,16 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
 NSManagedObjectContext* slave = [SPM.localMaster spawnSlave];
 NSManagedObjectContext* ui = SPM.localMaster.uiMOC;
 __weak typeof(slave) weakSlave = slave;
-{% endhighlight %}
 
-{% endhighlight %}
-
-{% highlight javascript %}
 [slave performBlockAndWait:^{
      NSFetchRequest *request=[[NSFetchRequest alloc] initWithEntityName:@"Entity"];
      request.predicate=[NSPredicate predicateWithFormat:@"Complex fetch predicate"];
-{% endhighlight %}
 
-{% highlight javascript %}
      resultIDs = [weakSlave executeFetchRequest:request error:&error];
      //check the error
-{% endhighlight %}
 
-{% highlight javascript %}
      //do something on the main thread with the results
      NSManagedObject* firstObject = [weakUi objectWithID:[resultIDs firstObject]];
 });
+
 {% endhighlight %}

@@ -4,7 +4,13 @@ meta_description: "iOS and OSX related tips, tricks and tutorials"
 
 aboutPage: true
 
+gems:
+ - jekyll-paginate
+
 markdown: kramdown
+kramdown:
+  smart_quotes: apos,apos,quot,quot
+  parse_block_html: false
 highlighter: pygments
 
 paginate: 20
