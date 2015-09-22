@@ -27,25 +27,31 @@ Below you have a diagram that puts in perspective the relations between the UI, 
 Here’s a class that handles the initial setup.
 Also, below there’s a background fetch example. Inserting or updating works in a similar fashion.
 
-{% highlight objc %}
-
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 
-//you will typically have a singleton from which
-//you can access the master (in this example SPM)
-NSManagedObjectContext* slave = [SPM.localMaster spawnSlave];
-NSManagedObjectContext* ui = SPM.localMaster.uiMOC;
-__weak typeof(slave) weakSlave = slave;
+    //spawn a slave
+    //you will typically have a singleton from which
+    //you can access the master (in this example SPM)
+    NSManagedObjectContext* slave = [SPM.localMaster spawnSlave];
+    NSManagedObjectContext* ui = SPM.localMaster.uiMOC;
+    __weak typeof(slave) weakSlave = slave;
+    __weak typeof(ui) weakUi = ui;
 
-[slave performBlockAndWait:^{
-     NSFetchRequest *request=[[NSFetchRequest alloc] initWithEntityName:@"Entity"];
-     request.predicate=[NSPredicate predicateWithFormat:@"Complex fetch predicate"];
+    __block NSArray* resultIDs;
 
-     resultIDs = [weakSlave executeFetchRequest:request error:&error];
-     //check the error
+    //perform the fetch on the slave''s thread
+    [slave performBlockAndWait:^{
+         NSFetchRequest *request=[[NSFetchRequest alloc] initWithEntityName:@"Entity"];
+         request.predicate=[NSPredicate predicateWithFormat:@"Complex fetch predicate"];
+         request.resultType = NSManagedObjectIDResultType;
 
-     //do something on the main thread with the results
-     NSManagedObject* firstObject = [weakUi objectWithID:[resultIDs firstObject]];
+         NSError *error;
+         resultIDs = [weakSlave executeFetchRequest:request error:&error];
+         //check the error
+    }];
+
+    [ui performBlock:^{
+         //do something on the main thread with the results
+         NSManagedObject* firstObject = [weakUi objectWithID:[resultIDs firstObject]];
+    }];
 });
-
-{% endhighlight %}
