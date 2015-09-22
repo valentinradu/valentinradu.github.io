@@ -3,9 +3,8 @@ description: iOS and OSX related tips, tricks and tutorials by Valentin Radu, so
 meta_description: "iOS and OSX related tips, tricks and tutorials"
 
 aboutPage: true
-pygments: true
 
-markdown: redcarpet
+markdown: kramdown
 highlighter: pygments
 
 paginate: 20

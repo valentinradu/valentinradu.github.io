@@ -16,46 +16,46 @@ A good design to solve this problem should, at least, allow you to add new servi
 Here is where NSValueTransformer comes really handy. You could have different NSValueTransformer subclasses for each service, transforming the received http NSData into a canonical NSDictionary or a custom class that could be used throughout your app. This gives you the possibility to add new services just by creating a new NSValueTransformer subclass that knows how to make this conversion happen. Below there’s an example on how one of this NSValueTransformer subclass implementation might look like.
 
 + (Class)transformedValueClass {
-    return NSDictionary.class;
+{% endhighlight %}
 }
 
 + (BOOL)allowsReverseTransformation {
-    return NO;
+{% endhighlight %}
 }
 
 - (id)transformedValue:(NSData*)data {
 
-    //the respones might not be what we''re expecting,
-    //so we''re interested in the error, if any
-    NSError* error;
+{% highlight javascript %}
+//so we''re interested in the error, if any
+{% endhighlight %}
 
-    //we assume this service response is JSON
-    NSMutableDictionary* response = 
+{% highlight python %}
+{% endhighlight %}
 [NSJSONSerialization JSONObjectWithData:data 
 options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves
 error:&error];
 
-    //we let others know if the transform ended with an error
-    //and return right away if it did
-    self.error = error;
-    if (self.error) return nil;
+{% highlight javascript %}
+//and return right away if it did
+self.error = error;
+{% endhighlight %}
 
 
-    //our canonical response
-    NSMutableDictionary* canonicalResponse = [NSMutableDictionary dictionary];
+{% highlight javascript %}
+{% endhighlight %}
 
-    //we copy the values we''re interested in into the canonical dictionary
-    //using the appropiate keys and transforming values where needed
-    canonicalResponse[@"temperature"] = [self fahrenheitToCelsius:response[@"temp"]];
-    canonicalResponse[@"location"] = [response[@"area"] capitalizedString];
+{% highlight javascript %}
+//using the appropiate keys and transforming values where needed
+canonicalResponse[@"temperature"] = [self fahrenheitToCelsius:response[@"temp"]];
+{% endhighlight %}
 
-    //and so on
-    //...
+{% highlight python %}
+{% endhighlight %}
 
 
-    //the returned dictionary has a consistent
-    //structure for each and every service now
-    return canonicalResponse;
+{% highlight javascript %}
+//structure for each and every service now
+{% endhighlight %}
 }
 
 
