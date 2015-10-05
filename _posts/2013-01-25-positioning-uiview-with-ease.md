@@ -11,7 +11,7 @@ tags:
 ---
 Let’s take the code below:
 
-```
+```objc
 CGRect rect = button.frame;
 rect.origin.x = tableView.frame.origin.x;
 rect.origin.y = tableView.frame.origin.y + tableView.frame.size.height;
@@ -22,7 +22,7 @@ Assuming button and tableView are in the same superview, the code aligns `button
 
 So [here](https://github.com/valentinradu/UIViewEasyPositioning/tree/master/UIViewEasyPositioning) are some categories that make things smoother. They provide a simple way of aligning your views relative to siblings or to arbitrary points. So the above code becomes:
 
-```
+```objc
 button.topLeft = tableView.bottomLeft;
 ```
 
@@ -36,7 +36,7 @@ Here you go, a graphical representation of each anchor point for a better unders
 
 It comes in many other flavours:
 
-```
+```objc
 //centers the views vertically, aligns on top horizontally
 button.topCenter = tableView.topCenter;
 
