@@ -26,7 +26,7 @@ Keep the UI context as the root’s child, this way, when saved, it will push it
 Use multiple slave contexts as children of the root context. Every time one gets saved, it pushes the changes to the root context and then notifies and merge the changes into the UI context. This makes a save very cheap since all the changes are propagated in memory. The slave context usually does the heavy lifting, from huge and complex fetches to data importing, every time an expensive operations is done, this grunt will handle it.
 Below you have a diagram that puts in perspective the relations between the UI, root and slave contexts.
 
-![Core Data Design Diagram](../assets/images/coredata-technique.png)
+![Core Data Design Diagram](/assets/images/coredata-technique.png)
 
 [Here](https://github.com/valentinradu/CWPersistentMaster)’s a class that handles the initial setup.
 Also, below there’s a background fetch example. Inserting or updating works in a similar fashion.

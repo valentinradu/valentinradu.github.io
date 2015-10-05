@@ -32,7 +32,7 @@ Which basically translates to:
 
 Here you go, a graphical representation of each anchor point for a better understanding:
 
-![View Anchors](../assets/images/view-anchors.png)
+![View Anchors](/assets/images/view-anchors.png)
 
 It comes in many other flavours:
 
