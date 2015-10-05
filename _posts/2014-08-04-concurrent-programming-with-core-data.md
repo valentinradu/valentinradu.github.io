@@ -2,8 +2,12 @@
 layout: post
 title: Concurrent programming with Core Data
 date: '2014-08-04T00:52:00+03:00'
-tags: []
-tumblr_url: http://somerandomtechblog.tumblr.com/post/93724926497/concurrent-programming-with-core-data
+tags:
+- core data
+- design patterns
+- multithreading
+- ios
+- objective-c
 ---
 Core Data is powerful and when harnessed correctly, it can transform your app into an ultra responsive, easy to maintain, scalable, background data consumer gem.
 
@@ -22,11 +26,12 @@ Keep the UI context as the root’s child, this way, when saved, it will push it
 Use multiple slave contexts as children of the root context. Every time one gets saved, it pushes the changes to the root context and then notifies and merge the changes into the UI context. This makes a save very cheap since all the changes are propagated in memory. The slave context usually does the heavy lifting, from huge and complex fetches to data importing, every time an expensive operations is done, this grunt will handle it.
 Below you have a diagram that puts in perspective the relations between the UI, root and slave contexts.
 
+![Core Data Design Diagram](../assets/images/coredata-technique.png)
 
-
-Here’s a class that handles the initial setup.
+[Here](https://github.com/valentinradu/CWPersistentMaster)’s a class that handles the initial setup.
 Also, below there’s a background fetch example. Inserting or updating works in a similar fashion.
 
+```objc
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 
     //spawn a slave
@@ -55,3 +60,4 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
          NSManagedObject* firstObject = [weakUi objectWithID:[resultIDs firstObject]];
     }];
 });
+```
