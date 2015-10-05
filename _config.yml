@@ -7,9 +7,11 @@ aboutPage: true
 gems:
  - jekyll-paginate
 
-markdown: redcarpet
-redcarpet:
-  extensions: ["smart", "tables", "no_intra_emphasis", "fenced_code_blocks", "autolink", "strikethrough", "superscript", "with_toc_data"
+markdown: kramdown
+kramdown:
+  smart_quotes: apos,apos,quot,quot
+  parse_block_html: false
+  input: GFM
 highlighter: pygments
 
 paginate: 20
