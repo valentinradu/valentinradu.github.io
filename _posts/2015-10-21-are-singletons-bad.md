@@ -25,12 +25,14 @@ I know, I know ... shush now, shush ...
 Bottom line:
 
 This is bad:
+
 ```objc
 [[Model shared] doThis]//Allover your app
 [[Model shared] doThat]//Allover your app
 ```
 
 This is good:
+
 ```objc
 controller.model = [Model shared]//In your dependency injector
 [self.model toThis]//In your controller
