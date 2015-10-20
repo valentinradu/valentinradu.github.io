@@ -26,16 +26,13 @@ Bottom line:
 
 This is bad:
 ```objc
-//Allover your app
-[[Model shared] doThis]
-[[Model shared] doThat]
+[[Model shared] doThis]//Allover your app
+[[Model shared] doThat]//Allover your app
 ```
 
 This is good:
 ```objc
-//In your dependency injector
-controller.model = [Model shared]
-//In your controller
-[self.model toThis]
-[self.model toThat]
+controller.model = [Model shared]//In your dependency injector
+[self.model toThis]//In your controller
+[self.model toThat]//In your controller
 ```
