@@ -25,14 +25,14 @@ I know, I know ... shush now, shush ...
 Bottom line:
 
 This is bad:
-```
+```objc
 //Allover your app
 [[Model shared] doThis]
 [[Model shared] doThat]
 ```
 
 This is good:
-```
+```objc
 //In your dependency injector
 controller.model = [Model shared]
 //In your controller
