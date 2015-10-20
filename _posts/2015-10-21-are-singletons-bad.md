@@ -14,7 +14,7 @@ Short answer, they are not, quite the opposite. So, what's with the gloomy aura?
 
 No really, it's actually your fault. The way you're abusing them made people who worked on your code think twice before properly using them.
 
-So, what's to be done? How can we restore our faith in singletons? I like to think about it this way: if I ever feel like I need one, I ask myself, do I intend to use it just because I'm lazy and badly need to access an instance from **everywhere** without refactoring my code, or is this object really the only one of his kind in my entire application. Usually the first applies.
+So, what's to be done? How can we restore our faith in singletons? I like to think about it this way: if I ever feel like I need one, I ask myself, do I intend to use it just because I'm lazy and badly need to access an instance from **everywhere** without refactoring my code, or is this object really the only one of his kind in my entire application (or the default one). Usually the first applies.
 
 In other words, use singletons whenever you feel like, as long as you don't use them for the sole purpose of accessing an instance from allover your app.
 
