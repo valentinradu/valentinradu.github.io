@@ -10,7 +10,6 @@ tags:
 - swift
 ---
 
-
 Short answer, they are not, quite the opposite. So, what's with the gloomy aura? Why every master developer you ever met told you otherwise? Honestly, I don't know either, everybody seems to be bashing them lately. Poor singletons, I will defend them!
 
 No really, it's actually your fault. The way you're abusing them made people who worked on your code think twice before properly using them.
