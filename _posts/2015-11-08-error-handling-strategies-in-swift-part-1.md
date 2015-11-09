@@ -13,7 +13,7 @@ tags:
 ---
 
 
-When the official error handling model was updated in Swift 2.0 the designers behind it decided to go on a more traditional object oriented path than most of us expected. Before 2.0 the established *unofficial* way of handling errors followed the Haskell [monadic](https://en.wikipedia.org/wiki/Monad_\%28functional_programming\%29) approach, which got a lot of love from the community.
+When the official error handling model was updated in Swift 2.0 the designers behind it decided to go on a more traditional object oriented path than most of us expected. Before 2.0 the established *unofficial* way of handling errors followed the Haskell [monadic](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29) approach, which got a lot of love from the community.
 
 While some embraced the new model, others were utterly disappointed. For the scope of this article, we shall not weight the advantages and disadvantages, but instead we will focus on simple but important strategies in error handling using the new model. As a side note, if you're interested in comparing the the two, [Brad Larson](http://www.sunsetlakesoftware.com/2015/06/12/swift-2-error-handling-practice) and [Nick Lockwood](https://gist.github.com/nicklockwood/21495c2015fd2dda56cf) wrote comprehensive articles on the matter. In any case, my feeling is that `try-catch` fits Swift better than the monadic model.
 
