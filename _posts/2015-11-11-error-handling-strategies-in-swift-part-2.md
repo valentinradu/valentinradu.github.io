@@ -14,7 +14,7 @@ tags:
 
 Initially I wanted to wrap this up in a single post but as I was writing it I quickly realize that it will take at least two. This is the second part, if you're not familiar yet with error handling basics in Swift 2.0, feel free to start with [the first part](http://cocoaexposed.com/2015/error-handling-strategies-in-swift-part-1).
 
-Also, if you're not familiar with the composition operator from other functional languages (e.g. `>>` in F#), you can checkout this post on how to add it as a Swift infix operator.
+Also, if you're not familiar with the composition operator from other functional languages (e.g. `>>` in `F#`), you can checkout this post on how to add it as a Swift infix operator.
 
 Last time we talked about how to `throw`, `try` and `catch` errors. This time we will focus on how to plan and implement a generic system that will help us handle errors application wide.
 
