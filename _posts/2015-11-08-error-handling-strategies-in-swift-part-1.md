@@ -12,7 +12,7 @@ tags:
 - swift lang
 ---
 
-Initially I wanted to wrap this up in a single post but as I was writing it I decided to split it in two parts. So, this is the first part, if you're already familiar with error handling in Swift 2.0 feel free to jump to [the second part](http://cocoaexposed.com/2015/error-handling-strategies-in-swift-part-2).
+*Initially I wanted to wrap this up in a single post but as I was writing it I decided to split it in two parts. So, this is the first part, if you're already familiar with error handling in Swift 2.0 feel free to jump to [the second part](http://cocoaexposed.com/2015/error-handling-strategies-in-swift-part-2).*
 
 When the official error handling model was updated in Swift 2.0 Apple decided to go on a more imperative path than most of us expected. Before 2.0, the established *unofficial* way followed Haskell's [monadic](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29) approach and got a lot of love from the community. So, when Swift 2.0 came out, some happily embraced the new model, but many were utterly disappointed.
 
