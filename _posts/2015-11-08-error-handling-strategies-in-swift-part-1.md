@@ -12,7 +12,7 @@ tags:
 - swift lang
 ---
 
-*Initially I wanted to wrap this up in a single post but as I was writing it I decided to split it in two parts. So, this is the first part, if you're already familiar with error handling in Swift 2.0 feel free to jump to [the second part](http://cocoaexposed.com/2015/error-handling-strategies-in-swift-part-2).*
+*Initially I wanted to wrap this up in a single post but as I was writing it I decided to split it in two parts. So, this is the first part, if you're already familiar with basic error handling in Swift 2.0 feel free to jump to [the second part](http://cocoaexposed.com/2015/error-handling-strategies-in-swift-part-2).*
 
 When the official error handling model was updated in Swift 2.0 Apple decided to go on a more imperative path than most of us expected. Before 2.0, the established *unofficial* way followed Haskell's [monadic](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29) approach and got a lot of love from the community. So, when Swift 2.0 came out, some happily embraced the new model, but many were utterly disappointed.
 
@@ -20,7 +20,9 @@ For the scope of this article, we shall not weight the advantages vs the disadva
 
 That being said. Let's get started with a little bit of background. Conceptually, an error is an unexpected result to an operation. Such a result can happen at different levels. So, we have hardware, kernel, system library, application level errors and so on. Most of these **can be handled** from the current running process (yes, even hardware and kernel errors) however many of the lower level errors leave the process is such a dire state that it can't be recovered, leaving us with the only valid option of terminating it.
 
-Historically, Objective-C had several ways of handling top level errors, by either keeping them in the application space (usually for failures: `NSError` pointer to pointer, error return) or forwarding them to lower level mechanisms (`NSException`, `@throw`). Using the latter for general flow-control was strongly discouraged by Apple because of performance issues. What Swift brings new is that it takes `throw` from the second category and puts it in the first. It no longer implicitly forwards the handling to lower levels, but forces the developer to handle the error as soon as the error throwing function had return. As you will soon see, this means `throw-try` is very similar with error returns, but with its handling enforced by the compiler.
+Historically, Objective-C had several ways of handling top level errors, by either keeping them in the application space (usually for failures: `NSError` pointer to pointer, error return) or forwarding them to lower level mechanisms (`NSException`, `@throw`). Using the latter for general flow-control was strongly discouraged by Apple because of performance issues.
+
+What Swift brings new is that it takes `throw` from the second category and puts it in the first. It no longer implicitly forwards the handling to lower levels. As you will soon see, this means `throw-try` becomes very similar with error returns, but with its handling enforced by the compiler.
 
 In Swift, every single function that can throw an error is marked accordingly. Adding `throws` or `rethrows` (which will be discussed later on) to a function changes the function signature. Meaning that the following will fail with `error: invalid conversion from throwing function of type '(String) throws -> String' to non-throwing function type 'String -> String'` and in order to fix it we will have to tell the compiler that `queueOperation` actually accepts throwing operations too.
 
@@ -40,7 +42,7 @@ func queueOperation(operation:String -> String)
 queueOperation(sendRequest)
 ```
 
-Now let's spice things up a little and add to the example the function that executes all the queued operations.
+Now let's spice things up a little and add the function that executes all the queued operations.
 
 ```swift
 //don't be intimidated by the trailing `()`

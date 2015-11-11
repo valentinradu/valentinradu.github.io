@@ -12,15 +12,13 @@ tags:
 - swift lang
 ---
 
-*Initially I wanted to wrap this up in a single post but as I was writing it I decided to split it two parts. This is the second part, if you're not familiar yet with error handling basics in Swift 2.0, feel free to start with [the first part](http://cocoaexposed.com/2015/error-handling-strategies-in-swift-part-1).*
+*Initially I wanted to wrap this up in a single post but as I was writing it I decided to split it two parts. This is the second part, if you're not familiar yet with error handling basics in Swift 2.0, feel free to start with [the first](http://cocoaexposed.com/2015/error-handling-strategies-in-swift-part-1).*
 
-Also, if you're not familiar with the composition operator from other functional languages (e.g. `>>` in `F#`), you can checkout this post on how to add it as a Swift infix operator.
+Also, we will be using the composition operator inspired from F sharp's `>>`, you can checkout this post on how to add it as a Swift infix operator.
 
-Last time we talked about how to `throw`, `try` and `catch` errors. This time we will focus on how to plan and implement a generic system that will help us handle errors application wide.
+Last time we talked about how to `throw`, `try` and `catch` errors. Now we will focus on how to plan and implement a generic system that will help us handle errors application wide. With that in mind, there are several things to consider:
 
-There are several things to consider when designing such a system:
-
-1.  **Consistency.** All the errors in our app should pass through the same processor. We want to avoid the scenario in which for each `catch` we write specific code. `defer` is much better suited for writing context specific code  like cleaning up. In the following example we use an error agent to sort and forward the information to interested parties.
+1.  **Consistency.** All the errors in our app should pass through the same processor. We want to avoid writing specific code for each `catch`, although, sometimes we may have to cancel a certain flow if the error occurred. In the following example we use an error agent to sort and forward the information to interested parties.
 
 
 ```swift
@@ -61,7 +59,7 @@ struct ErrorAgent
 
 The above agent has only one error category, `handledErrors`, but we could add as many as we wish, sorting them accordingly in the `switch` below.
 
-2. **Handle errors at the topmost level.** Let errors bubble up. Avoid handling them at various different levels as much as possible. Functions or closures that throw should be called from other throwing functions up to the topmost level.
+2. **Handle errors at the topmost level.** Let errors bubble up. Avoid handling them at various levels as much as possible. Functions or closures that throw should be called from other throwing functions up to the topmost level.
 
 ```swift
 //avoid this
@@ -148,7 +146,7 @@ catch let e
 
 ```
 
-3. **Prefer a functional approach, use composition, whenever possible.** It won't take long before you will fail to bubble up your errors because some framework function that doesn't throw sits between you and the topmost level. In order to solve this, compose your functions into a non-throwing function that does the handling along the way. If this doesn't make sense right away, don't worry, you will find it all explained better below.
+3. **Prefer a functional approach, use composition, whenever possible.** It won't take long before you will fail to bubble up your errors because some framework function that doesn't throw sits between you and the topmost level. In order to solve this, compose your functions do the handling along the way. If this doesn't make sense right away, don't worry, you will find it all explained better below. Don't forget to check out this post on the `|>>` operator.
 
 ```swift
 //We get a specific url from our factory
@@ -185,8 +183,6 @@ postListController.queue.addOperation(request)
 postListController.queue.addOperation(save)
 ```
 
-4. **Always handle errors.** There are multiple errors types, there are errors that we'd like to show to the users, errors that would be useful in a crash logs, and maybe errors that we'd like to ignore in production but assert in development. No matter the kind, always handle your errors and avoid using `try!` and `try?` except when absolutely necessarily.
+4. **Always handle errors.** There are errors that we'd like to show to the users, errors that would be useful in a crash logs, and maybe errors that we'd like to ignore in production but assert in development. No matter the kind, always handle your errors and avoid using `try!` and `try?` except when absolutely necessarily.
 
-Using the above we were able to design a system that delegates all the error handling responsibilities to an agent but keeps the flow control within the same context. Even more, with a little bit of help from the `>>` infix custom operator, we chained together several functions into a more powerful one, which was called asynchronously without losing the ability to catch any possible error that might occurred.
-
-This is why I love Swift.
+Bottom line, one should delegate all the error handling responsibilities to an agent but keep the flow control within the same context (decisions on what you'll do if a certain error fires should not be part of the agent). Also, when possible, use the `|>>` infix custom operator to chain together several functions into a more powerful one, which you can then call asynchronously without losing the ability to catch any error that might occurred within.
