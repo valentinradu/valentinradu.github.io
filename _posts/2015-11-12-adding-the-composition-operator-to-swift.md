@@ -11,32 +11,30 @@ tags:
 - functional swift
 ---
 
-There are certain operations that are very well suited for the functional paradigm. When you're sending a request to a server, conceptually, the entire flow can be described like this:
+There's no doubt that certain operations are very well suited for a functional approach. Conceptually, when you're sending a server request, the entire flow can be described like this:
 
 ```swift
 actOnResponse(makeRequest(request))
 ```
 
-Where both `actOnResponse` and `makeRequest` are a (possibly long) chain of other operations. `actOnResponse` could be:
+Where both `actOnResponse` and `makeRequest` are a (possibly long) chain of other operations:
 
 ```swift
-func actOnResponse(response:NSHTTPURLResponse?, data:NSData?, error:NSError?)
-{
-    insertIntoDB(convertToDataObjects(parseData(parseResponse(response, data, error))))
-}
+    insertIntoDB(convertToDataObjects(parseData(parseResponse(makeRequest(request)))))
 ```
 
-The composition operator (`|>>`) helps us greatly improve the readability of the above code:
+The composition operator (`|>>`) helps us greatly improve readability:
 
 ```swift
 let getUsers =  makeRequest |>>
                 parseResponse |>>
                 parseData |>>
                 convertToDataObjects |>>
-                insertIntoDB |>>
+                insertIntoDB
+getUsers(request)
 ```
 
-Of course, in real life things are almost never that simple. You might have to partially apply function or even make helper closures. Below you can find a more appropriate example taken from a real app:
+Make the request then parse whatever it returns, then convert it to data objects, and so on. Of course, in real life things are almost never that simple. You might have to partially apply functions or use semaphores to wait on async functions. Below you can find a more appropriate example taken from a real app:
 
 ```swift
 //We get a specific url from our factory
@@ -73,7 +71,7 @@ postListController.queue.addOperation(request)
 postListController.queue.addOperation(save)
 ```
 
-Also the infix operator:
+Since Swift doesn't support the composition operator out of the box, we will have to add it ourselves:
 
 ```swift
 infix operator |>> { associativity left }
