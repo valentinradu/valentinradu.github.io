@@ -14,7 +14,7 @@ tags:
 
 *Initially I wanted to wrap this up in a single post but as I was writing it I decided to split it two parts. This is the second part, if you're not familiar yet with error handling basics in Swift 2.0, feel free to start with [the first](http://cocoaexposed.com/2015/error-handling-strategies-in-swift-part-1).*
 
-Also, we will be using the composition operator inspired from F sharp's `>>`, you can checkout this post on how to add it as a Swift infix operator.
+Also, we will be using the composition operator inspired from F sharp's `>>`, you can checkout [this post](http://cocoaexposed.com/2015/adding-the-composition-operator-to-swift) on how to add it as a Swift infix operator.
 
 Last time we talked about how to `throw`, `try` and `catch` errors. Now we will focus on how to plan and implement a generic system that will help us handle errors application wide. With that in mind, there are several things to consider:
 
@@ -146,7 +146,7 @@ catch let e
 
 ```
 
-3. **Prefer a functional approach, use composition, whenever possible.** It won't take long before you will fail to bubble up your errors because some framework function that doesn't throw sits between you and the topmost level. In order to solve this, compose your functions do the handling along the way. If this doesn't make sense right away, don't worry, you will find it all explained better below. Don't forget to check out this post on the `|>>` operator.
+3. **Prefer a functional approach, use composition, whenever possible.** It won't take long before you will fail to bubble up your errors because some framework function that doesn't throw sits between you and the topmost level. In order to solve this, compose your functions do the handling along the way. If this doesn't make sense right away, don't worry, you will find it all explained better below. Don't forget to check out [this post](http://cocoaexposed.com/2015/adding-the-composition-operator-to-swift) on the `|>>` operator.
 
 ```swift
 //We get a specific url from our factory
